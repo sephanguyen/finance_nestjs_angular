@@ -8,21 +8,19 @@ export class Wallet {
   id: number;
 
   @Column()
-  paymentDay: Date;
+  paymentDay: string;
 
   @Column({ nullable: true })
   description: string;
 
   @Column()
-  totalMoney: string;
+  totalMoney: number;
 
-  @Column()
-  updateAt?: number;
+  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  updateAt?: string;
 
-  @Column({
-    default: new Date().getTime(),
-  })
-  createAt: number;
+  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  createAt?: string;
 
   @ManyToOne(type => User, user => user.wallets)
   user: User;

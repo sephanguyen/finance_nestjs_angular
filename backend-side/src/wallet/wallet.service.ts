@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Wallet } from './wallet.entity';
+import { User } from '../user/user.entity';
 import { CreateWallet } from './interfaces/create-wallet.interface';
 
 @Injectable()
@@ -9,7 +10,8 @@ export class WalletService {
   constructor(
     @InjectRepository(Wallet)
     private readonly walletRepository: Repository<Wallet>,
-  ) {}
+  ) // private readonly userRepository: Repository<User>,
+  {}
 
   async createWallet(user: CreateWallet): Promise<any> {
     return this.walletRepository.save(user);
@@ -20,7 +22,12 @@ export class WalletService {
   }
 
   async findByUserId(id: number): Promise<Wallet[]> {
-    const result = await this.walletRepository.find({ user: id });
+    const result = await this.walletRepository.find({
+      relations: ['user'],
+      where: {
+        userId: id,
+      },
+    });
     return result;
   }
 

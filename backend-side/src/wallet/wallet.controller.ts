@@ -7,6 +7,7 @@ import {
   HttpStatus,
   Put,
   Req,
+  Request,
 } from '@nestjs/common';
 import { WalletService } from './wallet.service';
 import { Wallet } from './wallet.entity';
@@ -33,7 +34,7 @@ export class WalletController {
   // }
 
   @Post()
-  createWallet(@Body() body: CreateWalletDto) {
+  createWallet(@Body() body: CreateWalletDto, @Req() request: Request) {
     return this.walletService.createWallet(body);
   }
 
